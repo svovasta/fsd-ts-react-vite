@@ -1,0 +1,144 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier", "@typescript-eslint"],
+  "env": {
+    "jest": true,
+    "browser": true
+  },
+  "ignorePatterns": [
+    "src/swagger/*", // <<< ignore all files in test folder
+    "packages/link-mobile" // <<< ignore react-native project folder
+  ],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "spaced-comment": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-cycle": "off",
+    "no-restricted-syntax": "off",
+    "no-unused-expressions": "off",
+    "default-case": "off",
+    "consistent-return": "off",
+    "prefer-destructuring": "off",
+    "array-callback-return": "off",
+    "no-use-before-define": "off",
+    "react/prop-types": 0,
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "no-underscore-dangle": 0,
+    "import/imports-first": ["error", "absolute-first"],
+    "import/newline-after-import": "error",
+    "react/require-default-props": "off",
+    // Изменяем правило no-unused-vars, чтобы ESLint не ругался на неиспользуемые параметры при типизации функций
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-plusplus": [
+      2,
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "no-nested-ternary": "off",
+    // TMP отключены или возвращены старые значения правил, добавленных или измененных в результате миграции airbnb 17 > 19 тк вызывают большое количество ошибок при линте
+    // old
+    "react/jsx-no-bind": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "react/destructuring-assignment": "off",
+    // react
+    "react/function-component-definition": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/jsx-no-useless-fragmen": "off",
+    "react/jsx-fragments": ["off", "syntax"],
+    // react-ally
+    "jsx-a11y/control-has-associated-label": "off",
+    // base/best-practices
+    "default-param-last": "off",
+    "prefer-regex-literals": "off",
+    "no-constructor-return": "off",
+    // base/errors
+    "no-promise-executor-return": "off",
+    "no-unsafe-optional-chaining": "off",
+    // base/es6
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    // base/import
+    "import/no-relative-packages": "off",
+    // base/style
+    "prefer-object-spread": "off",
+    // ---------------------------------------------------
+
+    // Переопределяет правило airbnb
+    // Разрешает импорт TS файлов без расширения
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "globals": {
+    "window": true,
+    "document": true,
+    "localStorage": true,
+    "FormData": true,
+    "FileReader": true,
+    "Blob": true,
+    "navigator": true
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    }
+  },
+  // Переопределение настроек airbnb по умолчанию для TS
+  "settings": {
+    // was: ['.mjs', '.js', '.json']
+    "import/resolver": {
+      "node": {
+        "extensions": [".mjs", ".js", ".jsx", ".json", ".ts", ".tsx", ".d.ts"]
+      },
+      "alias": {
+        "map": [
+          ["@hooks", "./src/hooks/index"],
+          ["@types", "./src/types/index"],
+          ["@swagger", "./src/services/swagger-index.service"],
+          ["@utils", "./src/services/utils.service.js"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+      }
+    },
+    // для использования `@types/<package-name>`
+    "import/external-module-folders": ["node_modules", "node_modules/@types"]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        // Разрешает JSX в .tsx файлах. Переопределяет правило из aribnb конфига
+        // airbnb-typescript можно установить в проект
+        // workaround для конфликта с react-scripts: в overrides package.json добавить
+        // @typescript-eslint/eslint-plugin@^7.0.0 и @typescript-eslint/parser@^7.0.0
+        "react/jsx-filename-extension": [2, { "extensions": [".tsx"] }]
+      },
+      "settings": {
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts", ".tsx", ".d.ts"]
+        }
+      }
+    }
+  ]
+}
